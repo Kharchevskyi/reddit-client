@@ -42,7 +42,7 @@ final class RedditViewModel {
             $0.map { PostViewModel(post: $0) }
         }
         .sink(receiveValue: { value in
-            print(value)
+            print(value.count)
         })
             .store(in: &subscriptions)
         
@@ -66,6 +66,7 @@ extension RedditViewModel {
     
     func loadMore() {
         print("Load more")
+        redditService.loadNext()
     }
 }
 
@@ -75,9 +76,6 @@ extension RedditViewModel {
         switch (currentState, newState) {
         case (.idle, .loading):
             print("start requesting")
-//            DispatchQueue.global().asyncAfter(deadline: .now() + 2) {
-//                self.subject.send(.loaded([PostViewModel(), PostViewModel()]))
-//            }
         case (.loading, .loading):
             print("Loading. Do nothing")
         default:
@@ -103,7 +101,7 @@ protocol RedditApiServiceType {
 final class RedditApiService {
     private enum State {
         case pageLoaded(RedditListingPage)
-        case pageLoading
+        case pageLoading(AnyCancellable)
         
         var posts: [RedditPost] {
             guard case let .pageLoaded(posts) = self else { return [] }
@@ -117,7 +115,7 @@ final class RedditApiService {
     private var subscriptions: Set<AnyCancellable> = []
     
     private var postsSubject: CurrentValueSubject<[RedditPost], Never> = CurrentValueSubject([])
-    private var pageStates: [State] = []
+    private var pages: [State] = []
     
     var posts: AnyPublisher<[RedditPost], Never> { postsSubject.eraseToAnyPublisher() }
     
@@ -131,32 +129,41 @@ final class RedditApiService {
     
     func reload() {
         queue.async {
-            self.pageStates = []
+            self.pages = []
             self.add(listing: self.api.listing(for: self.request, limit: 25))
         }
     }
     
+    func loadNext() {
+        queue.async {
+            // get last loaded page
+            guard let last = self.pages.last, case let .pageLoaded(listing) = last else {
+                return
+            }
+            
+            // load next page if possible
+            guard let next = listing.next else {
+                return
+            }
+            
+            self.add(listing: next)
+        }
+    }
+    
     private func add(listing: AnyPublisher<RedditListingPage, Error>) {
-        let index = pageStates.count
-        listing.subscribe(on: queue)
+        let index = pages.count
+        let subscription = listing.subscribe(on: queue)
             .sink(
                 receiveCompletion: { _ in },
                 receiveValue: { [weak self] page in
                     guard let self = self else { return }
                     self.updatePage(with: index, listing: page)
-                }
-            )
-        .store(in: &subscriptions)
+                })
+        pages.append(.pageLoading(subscription))
     }
     
     private func updatePage(with index: Int, listing: RedditListingPage) {
-        pageStates.insert(.pageLoaded(listing), at: index)
-        postsSubject.send(self.pageStates.flatMap { $0.posts })
+        pages[index] = .pageLoaded(listing)
+        postsSubject.send(self.pages.flatMap { $0.posts })
     }
-    
-    
-    func loadNext() {
-        
-    }
-    
 }
