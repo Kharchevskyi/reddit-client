@@ -27,6 +27,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             name: "Default Configuration",
             sessionRole: connectingSceneSession.role
         )
-    } 
+    }
+    
+    
+    // MARK: - DI
+    let dependencies = DependencyProvider()
+        .register(type: RedditAPIType.self, instance: RedditAPI.default)
+    
+    @objc func dependencyProvider() { }
 }
 

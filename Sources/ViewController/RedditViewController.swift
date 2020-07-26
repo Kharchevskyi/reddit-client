@@ -10,14 +10,38 @@ import UIKit
 import Combine
 
 final class RedditViewController: UITableViewController {
-    // TODO: - Add DI. Fix initializtion
-    private let api: RedditAPIType = RedditAPI.default
-    private let request: RedditRequest = RedditRequest(path: "top")
+    private var api: RedditAPIType!
+    private var request: RedditRequest!
     private lazy var viewModel = RedditViewModel(api: api, request: request)
     
     private var subscriptions: Set<AnyCancellable> = []
-    
     private let tableRefreshControl = UIRefreshControl()
+    @IBInspectable var path: String = "top"
+    
+    // MARK: - Initialisation
+     
+    init(
+        api: RedditAPIType,
+        request: RedditRequest
+    ) {
+        super.init(style: .grouped)
+        self.api = api
+        self.request = request
+    }
+    
+    required init?(coder: NSCoder) {
+        super.init(coder: coder)
+    }
+    
+    override func awakeFromNib() {
+        super.awakeFromNib()
+        self.api = inject(
+            type: RedditAPIType.self,
+            responder: self,
+            fallback: RedditAPI.default
+        )
+        self.request = RedditRequest(path: path)
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -56,7 +80,7 @@ extension RedditViewController {
     }
 }
 
-// MARK: - Update
+// MARK: - State handling
 extension RedditViewController {
     private func reload(with state: RedditViewModel.State) {
         title = state.title
@@ -72,6 +96,7 @@ extension RedditViewController {
     }
 }
 
+// MARK: - Updates
 extension RedditViewController {
     @objc private func refresh() {
         viewModel.reload()

@@ -19,6 +19,7 @@
 		D24C585524CD9A5E00C592D6 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D24C585424CD9A5E00C592D6 /* Assets.xcassets */; };
 		D24C585824CD9A5E00C592D6 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D24C585624CD9A5E00C592D6 /* LaunchScreen.storyboard */; };
 		D24C586324CD9A5F00C592D6 /* RedditClientTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D24C586224CD9A5F00C592D6 /* RedditClientTests.swift */; };
+		D2E4173224CE2715009F925B /* DependencyProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2E4173124CE2715009F925B /* DependencyProvider.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -48,6 +49,7 @@
 		D24C585E24CD9A5F00C592D6 /* RedditClientTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = RedditClientTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		D24C586224CD9A5F00C592D6 /* RedditClientTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RedditClientTests.swift; sourceTree = "<group>"; };
 		D24C586424CD9A5F00C592D6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		D2E4173124CE2715009F925B /* DependencyProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DependencyProvider.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -118,6 +120,7 @@
 			children = (
 				D2219DA324CDD564005807B7 /* ViewController */,
 				D2219DA824CDDF9A005807B7 /* API */,
+				D2E4173324CE2719009F925B /* DI */,
 				D2219DB124CDE124005807B7 /* Models */,
 				D24C586D24CD9B9000C592D6 /* Supporting Files */,
 				D24C584B24CD9A5C00C592D6 /* AppDelegate.swift */,
@@ -144,6 +147,14 @@
 				D24C585924CD9A5E00C592D6 /* Info.plist */,
 			);
 			path = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		D2E4173324CE2719009F925B /* DI */ = {
+			isa = PBXGroup;
+			children = (
+				D2E4173124CE2715009F925B /* DependencyProvider.swift */,
+			);
+			path = DI;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -253,6 +264,7 @@
 				D2219DAA24CDE0EC005807B7 /* RedditResponse.swift in Sources */,
 				D2219DA724CDDF90005807B7 /* RedditRequest.swift in Sources */,
 				D2219DB024CDE118005807B7 /* RedditPost.swift in Sources */,
+				D2E4173224CE2715009F925B /* DependencyProvider.swift in Sources */,
 				D24C584C24CD9A5C00C592D6 /* AppDelegate.swift in Sources */,
 				D24C584E24CD9A5C00C592D6 /* SceneDelegate.swift in Sources */,
 			);
