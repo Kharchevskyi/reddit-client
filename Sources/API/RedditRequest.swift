@@ -1,13 +1,13 @@
 //
-//  SceneDelegate.swift
+//  RedditRequest.swift
 //  RedditClient
 //
 //  Created by Anton Kharchevskyi on 26/07/2020.
 //  Copyright © 2020 Anton Kharchevskyi. All rights reserved.
 //
 
-import UIKit
+import Foundation
 
-final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
-    var window: UIWindow?
-} 
+struct RedditRequest {
+    let path: String
+}
