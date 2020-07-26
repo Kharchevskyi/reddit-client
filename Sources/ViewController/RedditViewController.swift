@@ -17,16 +17,22 @@ final class RedditViewController: UITableViewController {
     
     private var subscriptions: Set<AnyCancellable> = []
     
+    private let tableRefreshControl = UIRefreshControl()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         setupUI()
         setupViewModel()
+        
+        let recognizer = UITapGestureRecognizer()
+        recognizer.addTarget(self, action: #selector(loadMorePosts))
+        tableView.addGestureRecognizer(recognizer)
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        
+        viewModel.activate()
     }
 }
 
@@ -35,6 +41,9 @@ extension RedditViewController {
     private func setupUI() {
         tableView.separatorStyle = .none
         tableView.isOpaque = true
+        
+        tableRefreshControl.addTarget(self, action: #selector(refresh), for: .valueChanged)
+        tableView.refreshControl = tableRefreshControl
     }
     
     private func setupViewModel() {
@@ -51,5 +60,24 @@ extension RedditViewController {
 extension RedditViewController {
     private func reload(with state: RedditViewModel.State) {
         title = state.title
+        
+        switch state {
+        case .idle:
+            tableRefreshControl.endRefreshing()
+        case .loaded:
+            tableRefreshControl.endRefreshing()
+        case .loading:
+            tableRefreshControl.beginRefreshing()
+        }
+    }
+}
+
+extension RedditViewController {
+    @objc private func refresh() {
+        viewModel.reload()
+    }
+    
+    @objc private func loadMorePosts() {
+        viewModel.loadMore()
     }
 }

@@ -13,13 +13,13 @@ final class RedditViewModel {
     enum State {
         case idle
         case loading
-        case loaded
+        case loaded([PostViewModel])
         
         var title: String {
             switch self {
             case .idle: return "Reddit"
-            case .loading: return "Loading"
-            case .loaded: return "Loaded"
+            case .loading: return "Loading 🏋️‍♀️"
+            case .loaded(let posts): return "Loaded \(posts.count)"
             }
         }
     }
@@ -39,12 +39,44 @@ final class RedditViewModel {
         
         state = subject.eraseToAnyPublisher()
     }
-    
+}
+
+// MARK: - Interactions
+extension RedditViewModel {
     func activate() {
-        // test
-        DispatchQueue.global().asyncAfter(deadline: .now() + 2) {
-            self.subject.send(.loaded)
-        }
+        update(to: .loading)
+    }
+    
+    func reload() {
+        //update(to: .loading)
+        print("Reload")
+    }
+    
+    func loadMore() {
+        print("Load more")
     }
 }
 
+extension RedditViewModel {
+    private func update(to newState: State) {
+        let currentState = subject.value
+        switch (currentState, newState) {
+        case (.idle, .loading):
+            print("start requesting")
+            DispatchQueue.global().asyncAfter(deadline: .now() + 2) {
+                self.subject.send(.loaded([PostViewModel(), PostViewModel()]))
+            }
+        case (.loading, .loading):
+            print("Loading. Do nothing")
+        default:
+            print(currentState)
+        }
+        
+        subject.send(newState)
+    }
+}
+
+// MARK: - TODO:
+struct PostViewModel {
+    
+}
