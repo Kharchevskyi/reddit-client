@@ -42,14 +42,10 @@ final class RedditAPI: RedditAPIType {
             return Fail(error: APIError.wrongURL).eraseToAnyPublisher()
         }
         
-        let a = session.dataTaskPublisher(for: url)
-        .map(\.data)
-        .decode(type: RedditResponse.self, decoder: decoder)
-        .eraseToAnyPublisher()
-         
-        
-        return a
-            
+        return session.dataTaskPublisher(for: url)
+            .map(\.data)
+            .decode(type: RedditResponse.self, decoder: decoder)
+            .eraseToAnyPublisher()
     }
      
     private func createURL(for request: RedditRequest) -> URL? {
@@ -62,30 +58,3 @@ final class RedditAPI: RedditAPIType {
         return components.url
     }
 }
-
-// MARK: - MODELS
-
-struct RedditResponse: Codable {
-    let data: RedditListing
-}
-
-struct RedditListing: Codable {
-    let after: String?
-    let children: [RedditChild]
-}
-
-struct RedditChild: Codable {
-    let posts: RedditPost
-    
-    enum CodingKeys: String, CodingKey {
-        case posts = "data"
-    }
-}
-
-struct RedditPost: Codable {
-    let title: String
-}
-
-
-     
-
