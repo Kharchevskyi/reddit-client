@@ -20,6 +20,7 @@
 		D24C585824CD9A5E00C592D6 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D24C585624CD9A5E00C592D6 /* LaunchScreen.storyboard */; };
 		D24C586324CD9A5F00C592D6 /* RedditClientTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D24C586224CD9A5F00C592D6 /* RedditClientTests.swift */; };
 		D2E4173224CE2715009F925B /* DependencyProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2E4173124CE2715009F925B /* DependencyProvider.swift */; };
+		D2E4173524CE2F83009F925B /* RedditListingPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2E4173424CE2F83009F925B /* RedditListingPage.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -50,6 +51,7 @@
 		D24C586224CD9A5F00C592D6 /* RedditClientTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RedditClientTests.swift; sourceTree = "<group>"; };
 		D24C586424CD9A5F00C592D6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D2E4173124CE2715009F925B /* DependencyProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DependencyProvider.swift; sourceTree = "<group>"; };
+		D2E4173424CE2F83009F925B /* RedditListingPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RedditListingPage.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -92,6 +94,7 @@
 			isa = PBXGroup;
 			children = (
 				D2219DA924CDE0EC005807B7 /* RedditResponse.swift */,
+				D2E4173424CE2F83009F925B /* RedditListingPage.swift */,
 				D2219DAF24CDE118005807B7 /* RedditPost.swift */,
 			);
 			path = Models;
@@ -261,6 +264,7 @@
 				D244F43424CDE7FB00F3D350 /* RedditViewModel.swift in Sources */,
 				D2219DA524CDD576005807B7 /* RedditAPI.swift in Sources */,
 				D2219DA224CDD51D005807B7 /* RedditViewController.swift in Sources */,
+				D2E4173524CE2F83009F925B /* RedditListingPage.swift in Sources */,
 				D2219DAA24CDE0EC005807B7 /* RedditResponse.swift in Sources */,
 				D2219DA724CDDF90005807B7 /* RedditRequest.swift in Sources */,
 				D2219DB024CDE118005807B7 /* RedditPost.swift in Sources */,

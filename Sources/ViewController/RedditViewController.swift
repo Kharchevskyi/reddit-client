@@ -43,6 +43,7 @@ final class RedditViewController: UITableViewController {
         self.request = RedditRequest(path: path)
     }
     
+    // MARK: - LifeCycle
     override func viewDidLoad() {
         super.viewDidLoad()
         
