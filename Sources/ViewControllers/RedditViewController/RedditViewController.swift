@@ -134,9 +134,7 @@ extension RedditViewController {
     }
     
     func handleImageTapAction(with url: URL?) {
-        guard let url = url, UIApplication.shared.canOpenURL(url) else {
-            return
-        }
-        UIApplication.shared.open(url, options: [:], completionHandler: nil)
+        guard let url = url else { return }
+        present(UIStoryboard.main.instantiateViewController(type: ImageViewController.self), animated: true, completion: nil)
     }
 }

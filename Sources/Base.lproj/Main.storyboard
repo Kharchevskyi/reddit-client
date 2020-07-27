@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="16097.2" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="map-x1-oBb">
-    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <device id="retina6_1" orientation="portrait" appearance="dark"/>
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16087"/>
+        <capability name="Named colors" minToolsVersion="9.0"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -14,6 +16,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <color key="sectionIndexBackgroundColor" name="backgroundColor"/>
                         <prototypes>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="RedditPostCell" rowHeight="168" id="tlR-VE-i1k" customClass="RedditPostCell" customModule="RedditClient" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="28" width="414" height="168"/>
@@ -109,5 +112,64 @@
             </objects>
             <point key="canvasLocation" x="73.913043478260875" y="132.58928571428572"/>
         </scene>
+        <!--Image View Controller-->
+        <scene sceneID="80x-ja-PmO">
+            <objects>
+                <viewController storyboardIdentifier="ImageViewController" id="cm0-go-OdB" customClass="ImageViewController" customModule="RedditClient" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="2D7-yA-xhF">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Slm-fU-h5L">
+                                <rect key="frame" x="20" y="261" width="374" height="374"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="Slm-fU-h5L" secondAttribute="height" multiplier="1:1" id="CgP-NM-YYK"/>
+                                </constraints>
+                            </imageView>
+                            <button opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="MiW-EL-bQl">
+                                <rect key="frame" x="16" y="643" width="382" height="44"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="44" id="zUB-sm-z2P"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="20"/>
+                                <state key="normal" title="Save">
+                                    <color key="titleColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </state>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                        <integer key="value" value="8"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
+                                <connections>
+                                    <action selector="tapButtonAction:" destination="cm0-go-OdB" eventType="touchUpInside" id="aZ9-q4-KnE"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" systemColor="systemGray6Color" red="0.94901960780000005" green="0.94901960780000005" blue="0.96862745100000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstItem="MiW-EL-bQl" firstAttribute="leading" secondItem="BHq-Yc-EuR" secondAttribute="leading" constant="16" id="0dQ-RC-6I5"/>
+                            <constraint firstItem="BHq-Yc-EuR" firstAttribute="trailing" secondItem="Slm-fU-h5L" secondAttribute="trailing" constant="20" id="1BF-pN-YOv"/>
+                            <constraint firstItem="BHq-Yc-EuR" firstAttribute="trailing" secondItem="MiW-EL-bQl" secondAttribute="trailing" constant="16" id="GLW-A6-7b4"/>
+                            <constraint firstItem="MiW-EL-bQl" firstAttribute="top" secondItem="Slm-fU-h5L" secondAttribute="bottom" constant="8" id="Qit-7s-7k3"/>
+                            <constraint firstItem="Slm-fU-h5L" firstAttribute="centerY" secondItem="2D7-yA-xhF" secondAttribute="centerY" id="Rhf-Ro-I0Z"/>
+                            <constraint firstItem="Slm-fU-h5L" firstAttribute="leading" secondItem="BHq-Yc-EuR" secondAttribute="leading" constant="20" id="iyT-Tf-myW"/>
+                            <constraint firstItem="Slm-fU-h5L" firstAttribute="centerX" secondItem="2D7-yA-xhF" secondAttribute="centerX" id="vfC-tJ-WNN"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="BHq-Yc-EuR"/>
+                    </view>
+                    <connections>
+                        <outlet property="actionButton" destination="MiW-EL-bQl" id="mkp-Um-loV"/>
+                        <outlet property="imageView" destination="Slm-fU-h5L" id="bbz-AE-iqC"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="clh-TB-K1D" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1831.8840579710147" y="132.58928571428572"/>
+        </scene>
     </scenes>
+    <resources>
+        <namedColor name="backgroundColor">
+            <color red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+    </resources>
 </document>

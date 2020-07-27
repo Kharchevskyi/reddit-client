@@ -34,6 +34,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     // MARK: - DI
     let dependencies = DependencyProvider()
         .register(type: RedditAPIType.self, instance: RedditAPI.default)
+        .register(type: ImageLoaderType.self, instance: ImageLoader.shared)
     
     @objc func dependencyProvider() { }
 }

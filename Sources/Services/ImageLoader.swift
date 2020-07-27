@@ -13,7 +13,7 @@ protocol ImageLoaderType {
     func loadImage(from url: URL) -> AnyPublisher<UIImage?, Never>
 }
 
-final class ImageLoader {
+final class ImageLoader: ImageLoaderType {
     static let shared = ImageLoader()
     
     private let cache: ImageCacheType

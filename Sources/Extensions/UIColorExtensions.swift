@@ -15,4 +15,7 @@ extension UIColor {
     static var appTextColor: UIColor {
         UIColor(named: "textColor")!
     }
+    static var appBorderColor: UIColor {
+        UIColor(named: "borderColor")!
+    }
 }
