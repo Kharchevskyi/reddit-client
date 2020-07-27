@@ -76,6 +76,7 @@ final class RedditViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         tableView.dequeueReusableCell(with: RedditPostCell.self, for: indexPath)
+            .with(post: posts[indexPath.row])
     }
 }
 
