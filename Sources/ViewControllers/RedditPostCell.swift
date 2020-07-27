@@ -10,7 +10,7 @@ import UIKit
 import Combine
 
 final class RedditPostCell: UITableViewCell {
-    typealias TapAction = () -> Void
+    typealias TapAction = (URL?) -> Void
     private enum Constants {
         static let imageWidth: CGFloat = 60
     }
@@ -20,7 +20,8 @@ final class RedditPostCell: UITableViewCell {
     @IBOutlet private var postAuthorLabel: UILabel!
     private var onActionTap: TapAction?
     private var cancellable: AnyCancellable?
-
+    private var post: ReditPostViewNode?
+    
     override func layoutSubviews() {
         super.layoutSubviews()
         thumbnailImageView.clipsToBounds = true
@@ -36,12 +37,13 @@ final class RedditPostCell: UITableViewCell {
     }
     
     @objc private func onImageTap(_ sender: UIView) {
-         onActionTap?()
+        onActionTap?(post?.thumbnailURL)
     }
 }
 
 extension RedditPostCell {
     func with(post: ReditPostViewNode) -> RedditPostCell {
+        self.post = post
         contentView.backgroundColor = .appBackgroundColor
         setupImageView(with: post)
         postTitleLabel.attributedText = post.title

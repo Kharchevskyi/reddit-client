@@ -73,8 +73,8 @@ final class RedditViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         tableView.dequeueReusableCell(with: RedditPostCell.self, for: indexPath)
             .with(post: posts[indexPath.row])
-            .onAction { [weak self] in
-                self?.handleTapAction()
+            .onAction { [weak self] url in
+                self?.handleImageTapAction(with: url)
             }
     }
 }
@@ -133,7 +133,10 @@ extension RedditViewController {
         viewModel.action = .loadMore
     }
     
-    func handleTapAction() {
-        debugPrint("Tapped")
+    func handleImageTapAction(with url: URL?) {
+        guard let url = url, UIApplication.shared.canOpenURL(url) else {
+            return
+        }
+        UIApplication.shared.open(url, options: [:], completionHandler: nil)
     }
 }
