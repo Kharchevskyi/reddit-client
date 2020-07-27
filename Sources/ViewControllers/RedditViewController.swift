@@ -71,7 +71,11 @@ final class RedditViewController: UITableViewController {
     
     // MARK: - UITableViewDataSource
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        viewModel.state.numberOfItems
+        posts.count
+    }
+    
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        tableView.dequeueReusableCell(with: RedditPostCell.self, for: indexPath)
     }
 }
 
@@ -124,11 +128,5 @@ extension RedditViewController {
     
     @objc private func loadMorePosts() {
         viewModel.action = .loadMore
-    }
-}
-
-extension RedditViewModel.State {
-    var numberOfItems: Int {
-        0
     }
 }
