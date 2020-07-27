@@ -58,10 +58,6 @@ final class RedditViewController: UITableViewController {
         
         setupUI()
         setupViewModel()
-        
-        let recognizer = UITapGestureRecognizer()
-        recognizer.addTarget(self, action: #selector(loadMorePosts))
-        tableView.addGestureRecognizer(recognizer)
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -69,7 +65,7 @@ final class RedditViewController: UITableViewController {
         viewModel.action = .activate
     }
     
-    // MARK: - UITableViewDataSource
+    // MARK: - TableView
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         posts.count
     }
@@ -77,6 +73,9 @@ final class RedditViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         tableView.dequeueReusableCell(with: RedditPostCell.self, for: indexPath)
             .with(post: posts[indexPath.row])
+            .onAction { [weak self] in
+                self?.handleTapAction()
+            }
     }
 }
 
@@ -85,6 +84,8 @@ extension RedditViewController {
     private func setupUI() {
         tableView.separatorStyle = .none
         tableView.isOpaque = true
+        tableView.estimatedRowHeight = 100
+        tableView.rowHeight = UITableView.automaticDimension
         
         tableRefreshControl.addTarget(self, action: #selector(refresh), for: .valueChanged)
         tableView.refreshControl = tableRefreshControl
@@ -121,7 +122,7 @@ extension RedditViewController {
     }
 }
 
-// MARK: - Updates
+// MARK: - Action handling
 extension RedditViewController {
     @objc private func refresh() {
         viewModel.action = .reload
@@ -129,5 +130,9 @@ extension RedditViewController {
     
     @objc private func loadMorePosts() {
         viewModel.action = .loadMore
+    }
+    
+    func handleTapAction() {
+        debugPrint("Tapped")
     }
 }
