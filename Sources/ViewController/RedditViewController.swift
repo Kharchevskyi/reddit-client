@@ -12,11 +12,14 @@ import Combine
 final class RedditViewController: UITableViewController {
     private var api: RedditAPIType!
     private var request: RedditRequest!
-    private lazy var viewModel = RedditViewModel(api: api, request: request)
+    private var viewModel: RedditViewModel!
     
     private var subscriptions: Set<AnyCancellable> = []
+   
     private let tableRefreshControl = UIRefreshControl()
     @IBInspectable var path: String = "top"
+    private var posts: [ReditPostViewNode] = []
+    private var hasMore = true
     
     // MARK: - Initialisation
      
@@ -27,6 +30,7 @@ final class RedditViewController: UITableViewController {
         super.init(style: .grouped)
         self.api = api
         self.request = request
+        createViewModel()
     }
     
     required init?(coder: NSCoder) {
@@ -41,6 +45,11 @@ final class RedditViewController: UITableViewController {
             fallback: RedditAPI.default
         )
         self.request = RedditRequest(path: path)
+        createViewModel()
+    }
+    
+    private func createViewModel() {
+        viewModel = RedditViewModel(api: api, request: request)
     }
     
     // MARK: - LifeCycle
@@ -57,7 +66,12 @@ final class RedditViewController: UITableViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        viewModel.activate()
+        viewModel.action = .activate
+    }
+    
+    // MARK: - UITableViewDataSource
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        viewModel.state.numberOfItems
     }
 }
 
@@ -72,7 +86,7 @@ extension RedditViewController {
     }
     
     private func setupViewModel() {
-        viewModel.state
+        viewModel.$state
             .receive(on: DispatchQueue.main)
             .sink(receiveValue: { [weak self] value in
                 self?.reload(with: value)
@@ -84,26 +98,37 @@ extension RedditViewController {
 // MARK: - State handling
 extension RedditViewController {
     private func reload(with state: RedditViewModel.State) {
-        title = state.title
-        
         switch state {
         case .idle:
             tableRefreshControl.endRefreshing()
-        case .loaded:
-            tableRefreshControl.endRefreshing()
+        
         case .loading:
             tableRefreshControl.beginRefreshing()
+            
+        case let .loaded(loadedPosts, hasNext):
+            tableRefreshControl.endRefreshing()
+            posts = loadedPosts
+            hasMore = hasNext
         }
+        
+        title = state.title
+        tableView.reloadData()
     }
 }
 
 // MARK: - Updates
 extension RedditViewController {
     @objc private func refresh() {
-        viewModel.reload()
+        viewModel.action = .reload
     }
     
     @objc private func loadMorePosts() {
-        viewModel.loadMore()
+        viewModel.action = .loadMore
+    }
+}
+
+extension RedditViewModel.State {
+    var numberOfItems: Int {
+        0
     }
 }
