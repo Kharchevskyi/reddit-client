@@ -82,6 +82,7 @@ final class RedditViewController: UITableViewController {
 // MARK: - Setup
 extension RedditViewController {
     private func setupUI() {
+        tableView.backgroundColor = .appBackgroundColor
         tableView.separatorStyle = .none
         tableView.isOpaque = true
         tableView.estimatedRowHeight = 100

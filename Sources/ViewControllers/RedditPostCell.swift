@@ -29,9 +29,9 @@ final class RedditPostCell: UITableViewCell {
     
     override func prepareForReuse() {
         thumbnailImageView.image = nil
-        postTitleLabel.text = nil
-        postCommentsLabel.text = nil
-        postAuthorLabel.text = nil
+        postTitleLabel.attributedText = nil
+        postCommentsLabel.attributedText = nil
+        postAuthorLabel.attributedText = nil
         cancellable?.cancel()
     }
     
@@ -42,10 +42,11 @@ final class RedditPostCell: UITableViewCell {
 
 extension RedditPostCell {
     func with(post: ReditPostViewNode) -> RedditPostCell {
+        contentView.backgroundColor = .appBackgroundColor
         setupImageView(with: post)
-        postTitleLabel.text = post.post.title
-        postCommentsLabel.text = String(post.post.numberOfComments)
-        postAuthorLabel.text = post.post.author
+        postTitleLabel.attributedText = post.title
+        postCommentsLabel.attributedText = post.commentsCount
+        postAuthorLabel.attributedText = post.author
         layoutIfNeeded()
         return self
     }
@@ -56,7 +57,7 @@ extension RedditPostCell {
     }
     
     private func setupImageView(with post: ReditPostViewNode) {
-        if let thumbnailURL = post.post.thumbnail {
+        if let thumbnailURL = post.thumbnailURL {
             let gesture = UITapGestureRecognizer(
                 target: self,
                 action: #selector(onImageTap)
