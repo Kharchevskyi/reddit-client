@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Combine
 
 final class RedditPostCell: UITableViewCell {
     typealias TapAction = () -> Void
@@ -18,21 +19,30 @@ final class RedditPostCell: UITableViewCell {
     @IBOutlet private var postCommentsLabel: UILabel!
     @IBOutlet private var postAuthorLabel: UILabel!
     private var onActionTap: TapAction?
+    private var cancellable: AnyCancellable?
+
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        thumbnailImageView.clipsToBounds = true
+        thumbnailImageView.layer.cornerRadius = thumbnailImageView.bounds.width / 2
+    }
     
+    override func prepareForReuse() {
+        thumbnailImageView.image = nil
+        postTitleLabel.text = nil
+        postCommentsLabel.text = nil
+        postAuthorLabel.text = nil
+        cancellable?.cancel()
+    }
+    
+    @objc private func onImageTap(_ sender: UIView) {
+         onActionTap?()
+    }
+}
+
+extension RedditPostCell {
     func with(post: ReditPostViewNode) -> RedditPostCell {
-        if let thumbnail = post.post.thumbnail {
-            let gesture = UITapGestureRecognizer(
-                target: self,
-                action: #selector(onImageTap)
-            )
-            thumbnailImageView.addGestureRecognizer(gesture)
-            thumbnailImageView.isUserInteractionEnabled = true
-            thumbnailImageView.backgroundColor = .red
-        } else {
-            thumbnailImageView.backgroundColor = .gray
-            thumbnailImageView.isUserInteractionEnabled = false
-        }
-        
+        setupImageView(with: post)
         postTitleLabel.text = post.post.title
         postCommentsLabel.text = String(post.post.numberOfComments)
         postAuthorLabel.text = post.post.author
@@ -45,20 +55,27 @@ final class RedditPostCell: UITableViewCell {
         return self
     }
     
-    override func layoutSubviews() {
-        super.layoutSubviews()
-        thumbnailImageView.clipsToBounds = true
-        thumbnailImageView.layer.cornerRadius = thumbnailImageView.bounds.width / 2
+    private func setupImageView(with post: ReditPostViewNode) {
+        if let thumbnailURL = post.post.thumbnail {
+            let gesture = UITapGestureRecognizer(
+                target: self,
+                action: #selector(onImageTap)
+            )
+            loadImage(for: thumbnailURL)
+            thumbnailImageView.addGestureRecognizer(gesture)
+            thumbnailImageView.isUserInteractionEnabled = true
+            thumbnailImageView.backgroundColor = .white
+        } else {
+            thumbnailImageView.backgroundColor = .gray
+            thumbnailImageView.isUserInteractionEnabled = false
+        }
     }
     
-    override func prepareForReuse() {
-        thumbnailImageView.image = nil
-        postTitleLabel.text = nil
-        postCommentsLabel.text = nil
-        postAuthorLabel.text = nil
-    }
-    
-    @objc private func onImageTap(_ sender: UIView) {
-         onActionTap?()
+    private func loadImage(for url: URL) {
+        cancellable = ImageLoader.shared
+            .loadImage(from: url)
+            .sink(receiveValue: { [weak self] image in
+                self?.thumbnailImageView.image = image
+            })
     }
 }

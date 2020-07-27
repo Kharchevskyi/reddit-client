@@ -25,6 +25,8 @@
 		D2E4173924CEBE02009F925B /* ReditPostViewNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2E4173824CEBE02009F925B /* ReditPostViewNode.swift */; };
 		D2E4173B24CED471009F925B /* TableViewExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2E4173A24CED471009F925B /* TableViewExtensions.swift */; };
 		D2E4173D24CED603009F925B /* RedditPostCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2E4173C24CED603009F925B /* RedditPostCell.swift */; };
+		D2E4173F24CF57B3009F925B /* ImageCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2E4173E24CF57B3009F925B /* ImageCache.swift */; };
+		D2E4174124CF5A5E009F925B /* ImageLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2E4174024CF5A5D009F925B /* ImageLoader.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -60,6 +62,8 @@
 		D2E4173824CEBE02009F925B /* ReditPostViewNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReditPostViewNode.swift; sourceTree = "<group>"; };
 		D2E4173A24CED471009F925B /* TableViewExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableViewExtensions.swift; sourceTree = "<group>"; };
 		D2E4173C24CED603009F925B /* RedditPostCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RedditPostCell.swift; sourceTree = "<group>"; };
+		D2E4173E24CF57B3009F925B /* ImageCache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCache.swift; sourceTree = "<group>"; };
+		D2E4174024CF5A5D009F925B /* ImageLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageLoader.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -132,6 +136,8 @@
 			isa = PBXGroup;
 			children = (
 				D2E4173624CEAA59009F925B /* RedditService.swift */,
+				D2E4173E24CF57B3009F925B /* ImageCache.swift */,
+				D2E4174024CF5A5D009F925B /* ImageLoader.swift */,
 				D2219DA324CDD564005807B7 /* ViewControllers */,
 				D2219DA824CDDF9A005807B7 /* API */,
 				D2E4173324CE2719009F925B /* DI */,
@@ -273,11 +279,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D2E4173F24CF57B3009F925B /* ImageCache.swift in Sources */,
 				D244F43424CDE7FB00F3D350 /* RedditViewModel.swift in Sources */,
 				D2E4173924CEBE02009F925B /* ReditPostViewNode.swift in Sources */,
 				D2219DA524CDD576005807B7 /* RedditAPI.swift in Sources */,
 				D2E4173724CEAA59009F925B /* RedditService.swift in Sources */,
 				D2219DA224CDD51D005807B7 /* RedditViewController.swift in Sources */,
+				D2E4174124CF5A5E009F925B /* ImageLoader.swift in Sources */,
 				D2E4173524CE2F83009F925B /* RedditListingPage.swift in Sources */,
 				D2219DAA24CDE0EC005807B7 /* RedditResponse.swift in Sources */,
 				D2219DA724CDDF90005807B7 /* RedditRequest.swift in Sources */,
