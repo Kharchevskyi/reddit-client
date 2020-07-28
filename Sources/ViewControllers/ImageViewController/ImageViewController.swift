@@ -19,6 +19,7 @@ final class ImageViewController: UIViewController {
     private var viewModel: ImageViewModel!
     private var subscriptions: Set<AnyCancellable> = []
     private var imageURL: URL?
+    private var buttonState: ImageViewNode.ButtonState = .idle
     
     // MARK: - Initialisation
     static func initialise(with imageURL: URL) -> ImageViewController {
@@ -59,7 +60,24 @@ final class ImageViewController: UIViewController {
     }
 
     @IBAction func tapButtonAction(_ sender: Any) {
-        dismiss(animated: true, completion: nil)
+        switch buttonState {
+        case .close:
+            dismiss(animated: true, completion: nil)
+        case .retry:
+            viewModel.action = .loadImage(imageURL)
+        case .save:
+            saveImage()
+        case .idle:
+            break
+        }
+    }
+    
+    private func saveImage() {
+        guard let imageToSave = imageView?.image else {
+            viewModel.action = .loadImage(imageURL)
+            return
+        }
+        viewModel.action = .saveImage(imageToSave)
     }
 }
  
@@ -78,6 +96,7 @@ extension ImageViewController {
         actionButton?.setAttributedTitle(node.buttonState.title, for: .normal)
         actionButton?.isEnabled = node.buttonState.isEnabled
         actionButton?.layer.borderColor = node.buttonState.borderColor.cgColor
+        buttonState = node.buttonState
         
         activityIndicator?.isHidden = !node.isLoading
         node.isLoading

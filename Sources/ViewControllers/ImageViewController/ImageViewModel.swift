@@ -22,12 +22,14 @@ final class ImageViewModel: ObservableObject {
     }
     
     private let imageLoader: ImageLoaderType
+    private let galleryService: GalleryServiceType
     
     // MARK: - Input
     enum Action {
         case idle
         case loadImage(URL?)
         case retry(URL?)
+        case saveImage(UIImage)
     }
     @Published var action: Action = .idle
     
@@ -52,9 +54,11 @@ final class ImageViewModel: ObservableObject {
     
     // MARK: - Implemenetation
     init(
-        imageLoader: ImageLoaderType = ImageLoader.shared
+        imageLoader: ImageLoaderType = ImageLoader.shared,
+        galleryService: GalleryServiceType = GalleryService()
     ) {
         self.imageLoader = imageLoader
+        self.galleryService = galleryService
         self.state = .idle(idleNode())
         
         $action
@@ -68,32 +72,44 @@ final class ImageViewModel: ObservableObject {
 
 
 extension ImageViewModel {
+    private func update(to newState: State) {
+        state = newState
+    }
+    
     private func handle(action: Action) {
         switch action {
         case .idle: break
         case let .retry(url), let .loadImage(url):
-            guard let url = url else {
-                update(to: .error(errorNode(error: .url)))
-                return
-            }
-            update(to: .loading(loadingNode()))
-            
-            imageLoader.loadImage(from: url)
-                .sink(receiveValue: { [weak self] image in
-                    guard let self = self else { return }
-                    if let image = image {
-                        self.update(to: .loaded(self.loadedNode(with: image)))
-                    } else {
-                        self.update(to: .error(self.errorNode(error: .image)))
-                    }
-
-                })
-                .store(in: &subscriptions)
+            loadImage(with: url)
+        case let .saveImage(image):
+            saveImage(with: image)
         }
     }
- 
-    private func update(to newState: State) {
-        state = newState
+  
+    private func loadImage(with url: URL?) {
+        guard let url = url else {
+            update(to: .error(errorNode(error: .url)))
+            return
+        }
+        update(to: .loading(loadingNode()))
+        
+        imageLoader.loadImage(from: url)
+            .sink(receiveValue: { [weak self] image in
+                guard let self = self else { return }
+                if let image = image {
+                    self.update(to: .loaded(self.loadedNode(with: image)))
+                } else {
+                    self.update(to: .error(self.errorNode(error: .image)))
+                }
+
+            })
+            .store(in: &subscriptions)
+    }
+    
+    private func saveImage(with image: UIImage) {
+        galleryService.saveImage(with: image) { error in
+            print(error)
+        }
     }
 }
 

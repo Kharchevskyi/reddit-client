@@ -32,6 +32,7 @@
 		D2E4174A24CF67A2009F925B /* ImageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2E4174924CF67A2009F925B /* ImageViewController.swift */; };
 		D2E4174C24CF68CC009F925B /* UIStoryboardExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2E4174B24CF68CC009F925B /* UIStoryboardExtensions.swift */; };
 		D2F1F78524D0112C00726DD8 /* ImageViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2F1F78424D0112C00726DD8 /* ImageViewModel.swift */; };
+		D2F1F78724D0357700726DD8 /* GalleryService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2F1F78624D0357700726DD8 /* GalleryService.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -74,6 +75,7 @@
 		D2E4174924CF67A2009F925B /* ImageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageViewController.swift; sourceTree = "<group>"; };
 		D2E4174B24CF68CC009F925B /* UIStoryboardExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIStoryboardExtensions.swift; sourceTree = "<group>"; };
 		D2F1F78424D0112C00726DD8 /* ImageViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageViewModel.swift; sourceTree = "<group>"; };
+		D2F1F78624D0357700726DD8 /* GalleryService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GalleryService.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -198,6 +200,7 @@
 		D2E4174724CF6714009F925B /* Services */ = {
 			isa = PBXGroup;
 			children = (
+				D2F1F78624D0357700726DD8 /* GalleryService.swift */,
 				D2E4173624CEAA59009F925B /* RedditService.swift */,
 				D2E4173E24CF57B3009F925B /* ImageCache.swift */,
 				D2E4174024CF5A5D009F925B /* ImageLoader.swift */,
@@ -337,6 +340,7 @@
 				D2219DA224CDD51D005807B7 /* RedditViewController.swift in Sources */,
 				D2E4174124CF5A5E009F925B /* ImageLoader.swift in Sources */,
 				D2E4173524CE2F83009F925B /* RedditListingPage.swift in Sources */,
+				D2F1F78724D0357700726DD8 /* GalleryService.swift in Sources */,
 				D2E4174524CF6376009F925B /* UIColorExtensions.swift in Sources */,
 				D2219DAA24CDE0EC005807B7 /* RedditResponse.swift in Sources */,
 				D2E4174A24CF67A2009F925B /* ImageViewController.swift in Sources */,
