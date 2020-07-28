@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="16097.2" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="map-x1-oBb">
-    <device id="retina6_1" orientation="portrait" appearance="dark"/>
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16087"/>
         <capability name="Named colors" minToolsVersion="9.0"/>
@@ -120,6 +120,15 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="URn-Uo-ndm">
+                                <rect key="frame" x="20" y="643" width="374" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="medium" translatesAutoresizingMaskIntoConstraints="NO" id="j6G-iM-Lhc">
+                                <rect key="frame" x="197" y="438" width="20" height="20"/>
+                            </activityIndicatorView>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Slm-fU-h5L">
                                 <rect key="frame" x="20" y="261" width="374" height="374"/>
                                 <constraints>
@@ -127,13 +136,10 @@
                                 </constraints>
                             </imageView>
                             <button opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="MiW-EL-bQl">
-                                <rect key="frame" x="16" y="643" width="382" height="44"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="44" id="zUB-sm-z2P"/>
-                                </constraints>
+                                <rect key="frame" x="20" y="684" width="374" height="36"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="20"/>
                                 <state key="normal" title="Save">
-                                    <color key="titleColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    <color key="titleColor" name="textColor"/>
                                 </state>
                                 <userDefinedRuntimeAttributes>
                                     <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
@@ -145,21 +151,28 @@
                                 </connections>
                             </button>
                         </subviews>
-                        <color key="backgroundColor" systemColor="systemGray6Color" red="0.94901960780000005" green="0.94901960780000005" blue="0.96862745100000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <color key="backgroundColor" systemColor="systemGray4Color" red="0.81960784310000001" green="0.81960784310000001" blue="0.83921568629999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
-                            <constraint firstItem="MiW-EL-bQl" firstAttribute="leading" secondItem="BHq-Yc-EuR" secondAttribute="leading" constant="16" id="0dQ-RC-6I5"/>
                             <constraint firstItem="BHq-Yc-EuR" firstAttribute="trailing" secondItem="Slm-fU-h5L" secondAttribute="trailing" constant="20" id="1BF-pN-YOv"/>
-                            <constraint firstItem="BHq-Yc-EuR" firstAttribute="trailing" secondItem="MiW-EL-bQl" secondAttribute="trailing" constant="16" id="GLW-A6-7b4"/>
-                            <constraint firstItem="MiW-EL-bQl" firstAttribute="top" secondItem="Slm-fU-h5L" secondAttribute="bottom" constant="8" id="Qit-7s-7k3"/>
+                            <constraint firstItem="URn-Uo-ndm" firstAttribute="top" secondItem="Slm-fU-h5L" secondAttribute="bottom" constant="8" id="3aW-2x-ocG"/>
+                            <constraint firstItem="j6G-iM-Lhc" firstAttribute="centerY" secondItem="2D7-yA-xhF" secondAttribute="centerY" id="3rz-gE-x7U"/>
+                            <constraint firstItem="URn-Uo-ndm" firstAttribute="leading" secondItem="BHq-Yc-EuR" secondAttribute="leading" constant="20" id="8ch-nN-6pD"/>
+                            <constraint firstItem="MiW-EL-bQl" firstAttribute="leading" secondItem="BHq-Yc-EuR" secondAttribute="leading" constant="20" id="GfR-iE-m3J"/>
+                            <constraint firstItem="MiW-EL-bQl" firstAttribute="top" secondItem="URn-Uo-ndm" secondAttribute="bottom" constant="20" id="KeY-BB-Jh1"/>
                             <constraint firstItem="Slm-fU-h5L" firstAttribute="centerY" secondItem="2D7-yA-xhF" secondAttribute="centerY" id="Rhf-Ro-I0Z"/>
+                            <constraint firstItem="BHq-Yc-EuR" firstAttribute="trailing" secondItem="URn-Uo-ndm" secondAttribute="trailing" constant="20" id="bF6-up-MdZ"/>
                             <constraint firstItem="Slm-fU-h5L" firstAttribute="leading" secondItem="BHq-Yc-EuR" secondAttribute="leading" constant="20" id="iyT-Tf-myW"/>
+                            <constraint firstItem="BHq-Yc-EuR" firstAttribute="trailing" secondItem="MiW-EL-bQl" secondAttribute="trailing" constant="20" id="rjL-Rm-CPX"/>
                             <constraint firstItem="Slm-fU-h5L" firstAttribute="centerX" secondItem="2D7-yA-xhF" secondAttribute="centerX" id="vfC-tJ-WNN"/>
+                            <constraint firstItem="j6G-iM-Lhc" firstAttribute="centerX" secondItem="2D7-yA-xhF" secondAttribute="centerX" id="xXr-zo-C7h"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="BHq-Yc-EuR"/>
                     </view>
                     <connections>
                         <outlet property="actionButton" destination="MiW-EL-bQl" id="mkp-Um-loV"/>
+                        <outlet property="activityIndicator" destination="j6G-iM-Lhc" id="7qD-mB-Hz4"/>
                         <outlet property="imageView" destination="Slm-fU-h5L" id="bbz-AE-iqC"/>
+                        <outlet property="messageLabel" destination="URn-Uo-ndm" id="VJL-q3-u8i"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="clh-TB-K1D" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -170,6 +183,9 @@
     <resources>
         <namedColor name="backgroundColor">
             <color red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+        <namedColor name="textColor">
+            <color red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
     </resources>
 </document>

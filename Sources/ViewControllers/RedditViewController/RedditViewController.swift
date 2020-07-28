@@ -135,6 +135,7 @@ extension RedditViewController {
     
     func handleImageTapAction(with url: URL?) {
         guard let url = url else { return }
-        present(UIStoryboard.main.instantiateViewController(type: ImageViewController.self), animated: true, completion: nil)
+        let viewController = ImageViewController.initialise(with: url)
+        present(viewController, animated: true, completion: nil)
     }
 }

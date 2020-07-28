@@ -18,7 +18,7 @@ extension UIStoryboard {
     }
     
     func instantiateViewController<T: UIViewController>(type: T.Type) -> T {
-        self.instantiateViewController(identifier: type.reuseIdentifier)
+        instantiateViewController(identifier: type.reuseIdentifier)
     }
 }
 
