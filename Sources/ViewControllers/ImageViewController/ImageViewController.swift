@@ -67,6 +67,15 @@ final class ImageViewController: UIViewController {
             viewModel.action = .loadImage(imageURL)
         case .save:
             saveImage()
+        case .saved:
+            dismiss(animated: true, completion: nil)
+        case .oppenSettings:
+            guard let settingsUrl = URL(string: UIApplication.openSettingsURLString),
+                UIApplication.shared.canOpenURL(settingsUrl) else {
+                return
+            }
+
+            UIApplication.shared.open(settingsUrl, completionHandler: nil)
         case .idle:
             break
         }
@@ -95,7 +104,7 @@ extension ImageViewController {
     private func updateUI(with node: ImageViewNode) {
         actionButton?.setAttributedTitle(node.buttonState.title, for: .normal)
         actionButton?.isEnabled = node.buttonState.isEnabled
-        actionButton?.layer.borderColor = node.buttonState.borderColor.cgColor
+        actionButton?.layer.borderColor = node.buttonState.color.cgColor
         buttonState = node.buttonState
         
         activityIndicator?.isHidden = !node.isLoading

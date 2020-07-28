@@ -10,20 +10,6 @@ import UIKit
 import Combine
  
 final class ImageViewModel: ObservableObject {
-    private enum Error: Swift.Error {
-        case url, image
-        
-        var message: String {
-            switch self {
-            case .url: return "URL is missing. Try another image"
-            case .image: return "Something went wrong"
-            }
-        }
-    }
-    
-    private let imageLoader: ImageLoaderType
-    private let galleryService: GalleryServiceType
-    
     // MARK: - Input
     enum Action {
         case idle
@@ -50,9 +36,24 @@ final class ImageViewModel: ObservableObject {
         }
     }
     @Published private(set) var state: State!
-    private var subscriptions: Set<AnyCancellable> = []
     
     // MARK: - Implemenetation
+    private enum Error: Swift.Error {
+        case url, image, saving
+        var message: String {
+            switch self {
+            case .url: return "URL is missing. Try another image"
+            case .image: return "Something went wrong"
+            case .saving: return "Image can't be saved\nPlease allow access in Settings"
+            }
+        }
+    }
+    
+    private var subscriptions: Set<AnyCancellable> = []
+    private let imageLoader: ImageLoaderType
+    private let galleryService: GalleryServiceType
+    private var image: UIImage?
+    
     init(
         imageLoader: ImageLoaderType = ImageLoader.shared,
         galleryService: GalleryServiceType = GalleryService()
@@ -61,15 +62,14 @@ final class ImageViewModel: ObservableObject {
         self.galleryService = galleryService
         self.state = .idle(idleNode())
         
-        $action
-            .sink(receiveValue: { [weak self] action in
+        $action.sink(
+            receiveValue: { [weak self] action in
                 self?.handle(action: action)
             })
             .store(in: &subscriptions)
 
     }
 }
-
 
 extension ImageViewModel {
     private func update(to newState: State) {
@@ -96,6 +96,7 @@ extension ImageViewModel {
         imageLoader.loadImage(from: url)
             .sink(receiveValue: { [weak self] image in
                 guard let self = self else { return }
+                self.image = image
                 if let image = image {
                     self.update(to: .loaded(self.loadedNode(with: image)))
                 } else {
@@ -107,8 +108,13 @@ extension ImageViewModel {
     }
     
     private func saveImage(with image: UIImage) {
-        galleryService.saveImage(with: image) { error in
-            print(error)
+        galleryService.saveImage(with: image) { [weak self] error in
+            guard let self = self else { return }
+            if error != nil {
+                self.update(to: .error(self.errorNode(error: .saving)))
+            } else {
+                self.update(to: .idle(self.idleSavedNode()))
+            }
         }
     }
 }
@@ -119,7 +125,7 @@ extension ImageViewModel {
             messageTitle: NSAttributedString(),
             buttonState: .idle,
             isLoading: true,
-            image: nil
+            image: image
         )
     }
     
@@ -128,6 +134,7 @@ extension ImageViewModel {
         switch error {
         case .url: buttonState = .close
         case .image: buttonState = .retry
+        case .saving: buttonState = .oppenSettings
         }
         
         return ImageViewNode(
@@ -140,7 +147,7 @@ extension ImageViewModel {
             ),
             buttonState: buttonState,
             isLoading: true,
-            image: nil
+            image: image
         )
     }
     
@@ -149,7 +156,7 @@ extension ImageViewModel {
             messageTitle: NSAttributedString(),
             buttonState: .idle,
             isLoading: true,
-            image: nil
+            image: image
         )
     }
     
@@ -161,25 +168,33 @@ extension ImageViewModel {
             image: image
         )
     }
+    
+    private func idleSavedNode() -> ImageViewNode {
+        ImageViewNode(
+            messageTitle: NSAttributedString(string: "Image is saved to Gallery"),
+            buttonState: .saved,
+            isLoading: true,
+            image: image
+        )
+    }
 }
 
 struct ImageViewNode {
     enum ButtonState {
-        case idle
-        case save
-        case close
-        case retry
+        case idle, save, close, retry, saved, oppenSettings
         
         var title: NSAttributedString {
             let attributes: [NSAttributedString.Key: Any] = [
                 NSAttributedString.Key.font: UIFont.boldSystemFont(ofSize: 15),
-                NSAttributedString.Key.foregroundColor: borderColor
+                NSAttributedString.Key.foregroundColor: color
             ]
             let title: String
             switch self {
             case .idle, .save: title = "Save"
             case .close: title = "Close"
             case .retry: title = "Retry"
+            case .saved: title = "Saved"
+            case .oppenSettings: title = "Go to Settings"
             }
             return NSAttributedString(string: title, attributes: attributes)
         }
@@ -189,12 +204,13 @@ struct ImageViewNode {
             return false
         }
         
-        var borderColor: UIColor {
+        var color: UIColor {
             switch self {
             case .idle: return UIColor.appTextColor.withAlphaComponent(0.5)
-            case .save: return UIColor.appTextColor
+            case .save, .oppenSettings: return UIColor.appTextColor
             case .close: return UIColor.red
             case .retry: return UIColor.appTextColor.withAlphaComponent(0.9)
+            case .saved: return UIColor.darkGray
             }
         }
     }
