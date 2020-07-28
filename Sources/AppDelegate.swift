@@ -37,5 +37,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         .register(type: ImageLoaderType.self, instance: ImageLoader.shared)
     
     @objc func dependencyProvider() { }
+    
+    // MARK: - State Restoration
+    func application(_ application: UIApplication, shouldSaveSecureApplicationState coder: NSCoder) -> Bool {
+        true
+    }
+    
+    func application(_ application: UIApplication, shouldRestoreApplicationState coder: NSCoder) -> Bool {
+        true
+    }
 }
 

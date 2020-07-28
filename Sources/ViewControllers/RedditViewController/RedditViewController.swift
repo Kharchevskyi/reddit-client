@@ -55,7 +55,7 @@ final class RedditViewController: UITableViewController {
     // MARK: - LifeCycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        enableStateRestoration()
         setupUI()
         setupViewModel()
     }
@@ -137,5 +137,40 @@ extension RedditViewController {
         guard let url = url else { return }
         let viewController = ImageViewController.initialise(with: url)
         present(viewController, animated: true, completion: nil)
+    }
+}
+
+// MARK: - StateRestoration
+extension RedditViewController: UIViewControllerRestoration {
+    
+    private func enableStateRestoration() {
+        restorationIdentifier = encode(path: path)
+        restorationClass = RedditViewController.self
+    }
+    
+    private func encode(path: String) -> String? {
+        path.data(using: .utf8).map { $0.base64EncodedString() }
+    }
+    
+    static func viewController(
+        withRestorationIdentifierPath identifierComponents: [String],
+        coder: NSCoder
+    ) -> UIViewController? {
+        identifierComponents.last
+            .flatMap { RedditViewController.decode(path: $0) }
+            .map { path in
+                RedditViewController.init(
+                    api: inject(
+                        type: RedditAPIType.self,
+                        responder: UIApplication.shared,
+                        fallback: RedditAPI.default
+                    ),
+                    request: RedditRequest(path: path)
+                )
+            }
+    }
+    
+    private static func decode(path: String) -> String? {
+        Data(base64Encoded: path).flatMap { String(data: $0, encoding: .utf8) }
     }
 }

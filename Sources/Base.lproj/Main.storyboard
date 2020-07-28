@@ -11,7 +11,7 @@
         <!--Reddit View Controller-->
         <scene sceneID="O31-f5-aFI">
             <objects>
-                <tableViewController id="h7H-93-KGz" customClass="RedditViewController" customModule="RedditClient" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController restorationIdentifier="RedditViewController" storyboardIdentifier="RedditViewController" id="h7H-93-KGz" customClass="RedditViewController" customModule="RedditClient" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="bSb-Px-ZqN">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -115,7 +115,7 @@
         <!--Image View Controller-->
         <scene sceneID="80x-ja-PmO">
             <objects>
-                <viewController storyboardIdentifier="ImageViewController" id="cm0-go-OdB" customClass="ImageViewController" customModule="RedditClient" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController restorationIdentifier="ImageViewController" storyboardIdentifier="ImageViewController" id="cm0-go-OdB" customClass="ImageViewController" customModule="RedditClient" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="2D7-yA-xhF">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
