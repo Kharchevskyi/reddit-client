@@ -87,11 +87,12 @@ extension ImageViewModel {
     }
   
     private func loadImage(with url: URL?) {
+        update(to: .loading(loadingNode()))
+        
         guard let url = url else {
             update(to: .error(errorNode(error: .url)))
             return
         }
-        update(to: .loading(loadingNode()))
         
         imageLoader.loadImage(from: url)
             .sink(receiveValue: { [weak self] image in

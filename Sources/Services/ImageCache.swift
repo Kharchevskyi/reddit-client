@@ -12,7 +12,6 @@ protocol ImageCacheType {
     func image(for url: URL) -> UIImage?
     func insert(image: UIImage?, for url: URL)
     func removeImage(for url: URL)
-    subscript(_ url: URL) -> UIImage? { get set }
 }
 
 final class ImageCache {
@@ -54,14 +53,5 @@ extension ImageCache: ImageCacheType {
     func removeImage(for url: URL) {
         lock.lock(); defer { lock.unlock() }
         cache.removeObject(forKey: url as AnyObject)
-    }
-    
-    subscript(_ key: URL) -> UIImage? {
-        get {
-            image(for: key)
-        }
-        set {
-            return insert(image: newValue, for: key)
-        }
     }
 }
