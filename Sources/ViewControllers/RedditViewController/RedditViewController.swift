@@ -77,6 +77,32 @@ final class RedditViewController: UITableViewController {
                 self?.handleImageTapAction(with: url)
             }
     }
+    
+    private var shouldShowFooterView: Bool { hasMore && posts.isNotEmpty }
+    override func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
+        shouldShowFooterView
+            ? tableView.dequeueReusableHeaderFooterView(with: LoaderFooterView.self)
+            : tableView.dequeueReusableHeaderFooterView(with: EmptyFooterView.self)
+    }
+    
+    override func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
+        shouldShowFooterView
+            ? 100
+            : .leastNormalMagnitude
+    }
+    
+    override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        .leastNormalMagnitude
+    }
+    
+    override func tableView(
+        _ tableView: UITableView,
+        willDisplay cell: UITableViewCell,
+        forRowAt indexPath: IndexPath
+    ) {
+        guard indexPath.item == posts.index(before: posts.endIndex) else { return }
+        viewModel.action = .loadMore
+    }
 }
 
 // MARK: - Setup
@@ -87,9 +113,11 @@ extension RedditViewController {
         tableView.isOpaque = true
         tableView.estimatedRowHeight = 100
         tableView.rowHeight = UITableView.automaticDimension
-        
         tableRefreshControl.addTarget(self, action: #selector(refresh), for: .valueChanged)
         tableView.refreshControl = tableRefreshControl
+        
+        tableView.register(LoaderFooterView.self)
+        tableView.register(EmptyFooterView.self)
     }
     
     private func setupViewModel() {
@@ -174,3 +202,6 @@ extension RedditViewController: UIViewControllerRestoration {
         Data(base64Encoded: path).flatMap { String(data: $0, encoding: .utf8) }
     }
 }
+
+// TODO: - add icon
+// TODO: - tests

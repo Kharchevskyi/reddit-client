@@ -29,7 +29,7 @@ final class RedditViewModel: ObservableObject {
             switch self {
             case .idle: return "Reddit"
             case .loading: return "Loading 🏋️‍♀️"
-            case .loaded(let posts, _): return "Loaded \(posts.count)"
+            case .loaded(let posts, _): return "Top \(posts.count)"
             }
         }
     }
@@ -80,10 +80,17 @@ extension RedditViewModel {
             redditService.reload()
             
         case .loadMore:
-            update(to: .loading)
-            redditService.loadNext()
-            
-        case .idle: break
+            switch state {
+            case .idle, .loaded:
+                update(to: .loading)
+                redditService.loadNext()
+
+            case .loading:
+                break
+            }
+
+        case .idle:
+            break
         }
     }
 }
